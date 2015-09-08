@@ -90,7 +90,7 @@ module Provisioning
       else
         machine_spec = Provisioning.chef_managed_entry_store(chef_server).get(:machine, name)
       end
-      Chef::Provisioning.connect_to_machine(machine_spec, config)
+      Chef::Provisioning.connect_to_machine(machine_spec, config, driver_for_url(machine_spec.driver_url))
     end
 
     private

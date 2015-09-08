@@ -86,12 +86,12 @@ module Provisioning
     driver_class.from_url(canonicalized_url, config)
   end
 
-  def self.connect_to_machine(machine_spec, config = Cheffish.profiled_config)
+  def self.connect_to_machine(machine_spec, config = Cheffish.profiled_config, driver=nil)
     chef_server = Cheffish.default_chef_server(config)
     if machine_spec.is_a?(String)
       machine_spec = chef_managed_entry_store(chef_server).get(:machine, machine_spec)
     end
-    driver = driver_for_url(machine_spec.driver_url, config)
+    driver = driver_for_url(machine_spec.driver_url, config) unless driver
     if driver
       machine_options = { :convergence_options => { :chef_server => chef_server } }
       machine_options = Cheffish::MergedConfig.new(config[:machine_options], machine_options) if config[:machine_options]
